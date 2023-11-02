@@ -1,32 +1,32 @@
 import { useState } from "react";
 
-export default function Player({name, symbol}) {
+export default function Player({ name, symbol, isActive }) {
     const [playerName, setPlayerName] = useState(name);
     const [isEditing, setIsEditing] = useState(false);
-
-    const handleClick = () => {
-        setIsEditing((isEditing) => !isEditing);
-    };
 
     const handleChange = (event) => {
         setPlayerName(event.target.value);
     };
 
+    const handleClick = () => {
+        setIsEditing(isEditing => !isEditing);
+    };
+
     let tabCaption = 'Edit';
     let player = <span className="player-name">{playerName}</span>
 
-    if(isEditing) {
+    if (isEditing) {
         tabCaption = 'Save';
         player = <input type="text" value={playerName} onChange={handleChange} />
     }
 
     return (
-       <li>
-         <span className="player">
-            {player}
-            <span className="player-symbol">{symbol}</span>
-        </span>
-        <button onClick={handleClick}>{tabCaption}</button>
-       </li>
+        <li className={isActive ? 'active' : undefined}>
+            <span className="player">
+                {player}
+                <span className="player-symbol">{symbol}</span>
+            </span>
+            <button onClick={handleClick}>{tabCaption}</button>
+        </li>
     );
 }
