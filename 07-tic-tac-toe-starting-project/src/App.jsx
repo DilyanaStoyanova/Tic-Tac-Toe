@@ -6,10 +6,9 @@ import Player from "./components/Player";
 function App() {
 	const [activePlayer, setActivePlayer] = useState('X');
 
-	const handleSelectSquare = () => {
-		setActivePlayer(curActivePlayer => curActivePlayer === 'X' ? 'O' : 'X');
+	const switchActivePlayer = () => {
+		setActivePlayer(currActivePlayer => currActivePlayer === 'X' ? 'O' : 'X');
 	};
-
 
 	return (
 		<main>
@@ -18,7 +17,7 @@ function App() {
 					<Player name="Player 1" symbol="X" isActive={activePlayer === 'X'}/>
 					<Player name="Player 2" symbol="O" isActive={activePlayer === 'O'}/>
 				</ol>
-				<GameBoard handleSelectSquare={handleSelectSquare} activePlayerSymbol={activePlayer}/>
+				<GameBoard switchActivePlayer={switchActivePlayer} activePlayer={activePlayer}/>
 			</div>
 		</main >
 	)
