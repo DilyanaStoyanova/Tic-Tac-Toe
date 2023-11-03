@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function Player({ name, symbol, isActive }) {
+export default function Player({ name, symbol, isActive, onChangeName }) {
     const [playerName, setPlayerName] = useState(name);
     const [isEditing, setIsEditing] = useState(false);
 
@@ -10,6 +10,10 @@ export default function Player({ name, symbol, isActive }) {
 
     const handleClick = () => {
         setIsEditing(isEditing => !isEditing);
+        
+        if(isEditing) {
+            onChangeName(symbol, playerName);
+        }
     };
 
     let tabCaption = 'Edit';
