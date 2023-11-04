@@ -3,21 +3,29 @@ import { useState } from 'react';
 import Player from './components/Player';
 import GameBoard from "./components/GameBoard";
 import Log from './components/Log';
+import {WINNING_COMBINATIONS } from "./winning-combinations.js";
+ 
+function deriveActivePlayer(gameTurns) {
+	let currentPlayer = 'X';
+
+	if (gameTurns.length > 0 && gameTurns[0].player === 'X') {
+		currentPlayer = 'O';
+	}
+
+	return currentPlayer;
+}
 
 function App() {
-	const [activePlayer, setActivePlayer] = useState('X');
 	const [gameTurns, setGameTurns] = useState([]);
 
-	const handleSelectSquare = (rowIndex, colIndex) => {
-		setActivePlayer(curActivePlayer => curActivePlayer === 'X' ? 'O' : 'X');
-		setGameTurns(prevGameTurns => {
-			let currentPlayer = 'X';
+	let activePlayer = deriveActivePlayer(gameTurns);
 
-			if (prevGameTurns.length > 0 && prevGameTurns[0].player === 'X') {
-				currentPlayer = 'O';
-			}
+	const handleSelectSquare = (rowIndex, colIndex) => {
+		setGameTurns(prevGameTurns => {
+			let currentPlayer = deriveActivePlayer(prevGameTurns);
+
 			const updatedGameTurns = [
-				{ square: { row: rowIndex, col: colIndex }, player: currentPlayer}, ...prevGameTurns];
+				{ square: { row: rowIndex, col: colIndex }, player: currentPlayer }, ...prevGameTurns];
 
 
 			return updatedGameTurns;
@@ -33,7 +41,7 @@ function App() {
 				</ol>
 				<GameBoard onSelectSquare={handleSelectSquare} turns={gameTurns} />
 			</div>
-			<Log />
+			<Log turns={gameTurns} />
 		</main>
 	);
 }
